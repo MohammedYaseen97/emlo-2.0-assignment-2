@@ -66,6 +66,7 @@ _Suggestions are always welcome!_
 - [Distributed Training](#distributed-training)
 - [Best Practices](#best-practices)
 - [Resources](#resources)
+- [Docker support](#docker-support)
 
 <br> -->
 
@@ -1290,3 +1291,33 @@ You can override any parameter from command line like this
 ```bash
 python src/train.py trainer.max_epochs=20 datamodule.batch_size=64
 ```
+
+## Docker Support
+
+Docker support has been added to the [Makefile](Makefile).
+
+To build the docker container, use:
+
+```bash
+make build
+```
+
+This build also exists on [dockerhub](hub.docker.com)
+
+To run the container in interactive mode, use:
+
+```bash
+docker run -it --volume `pwd`:/app ace47/emlo-2.0:session02 ubuntu bash
+```
+
+You can also just run the train and eval scripts:
+
+```bash
+docker run --volume `pwd`:/app ace47/emlo-2.0:session02 python src/train.py
+```
+
+```bash
+docker run --volume `pwd`:/app ace47/emlo-2.0:session02 python src/eval.py ckpt_path=logs/train/runs/2022-09-12_15-47-43/checkpoints/epoch_001.ckpt
+```
+
+We mount the volume instead of copying all the files inside the docker while building so as to examine the system's performance inside docker with real time changes. 
